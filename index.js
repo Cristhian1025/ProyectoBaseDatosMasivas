@@ -2,11 +2,21 @@ const express = require('express');
 const cors = require('cors');
 const connection = require('./database/conexion');
 const path = require('path');
-
-
-
-
+//const routes = require('./routes');
 const app = express();
+
+
+const router = express.Router();
+
+const clienteController = require('./controllers/ClienteController');
+
+// Rutas para la entidad Cliente
+app.get('/', clienteController.getClientes);
+
+app.get('/:id', clienteController.getClienteById);
+
+
+//app.use('/api', routes);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -22,15 +32,6 @@ app.get('/api/prueba', (req, res) => {
         status: 'success'
     });
 });
-
-
-
-
-
-
-
-
-
 
 
 
