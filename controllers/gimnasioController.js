@@ -1,10 +1,9 @@
 const { Pool } = require('pg');
-const connectionString = process.env.DATABASE_URL;
-const pool = new Pool({ connectionString });
+const connection = require('../database/conexion');
 
 const getGimnasios = async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM Gimnasio');
+    const result = await connection.query('SELECT * FROM Gimnasio');
     res.status(200).json(result.rows);
   } catch (error) {
     console.error(error);
@@ -15,7 +14,7 @@ const getGimnasios = async (req, res) => {
 const getGimnasioById = async (req, res) => {
   const id = req.params.id;
   try {
-    const result = await pool.query('SELECT * FROM Gimnasio WHERE id_gimnasio = $1', [id]);
+    const result = await connection.query('SELECT * FROM Gimnasio WHERE id_gimnasio = $1', [id]);
     if (result.rows.length === 0) {
       return res.status(404).json({ error: 'Gimnasio no encontrado' });
     }
@@ -27,14 +26,14 @@ const getGimnasioById = async (req, res) => {
 };
 
 const createGimnasio = async (req, res) => {
-  const { nombre, ubicacion, direccion, telefono, horario_apertura, horario_cierre } = req.body;
+  const {nombre, ubicacion, direccion, telefono, horario_apertura, horario_cierre} = req.body;
   if (!nombre || !ubicacion || !direccion || !horario_apertura || !horario_cierre) {
     return res.status(400).json({ error: 'Faltan datos obligatorios para crear el gimnasio' });
   }
   try {
-    const result = await pool.query(
+    const result = await connection.query(
       `INSERT INTO Gimnasio (nombre, ubicacion, direccion, telefono, horario_apertura, horario_cierre) 
-             VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,
+          VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,
       [nombre, ubicacion, direccion, telefono, horario_apertura, horario_cierre]
     );
     res.status(201).json(result.rows[0]);
@@ -87,7 +86,7 @@ const updateGimnasio = async (req, res) => {
     query = query.slice(0, -2);
     query += ` WHERE id_gimnasio = $${paramNumber} RETURNING *`;
     values.push(id);
-    const result = await pool.query(query, values);
+    const result = await connection.query(query, values);
     if (result.rows.length === 0) {
       return res.status(404).json({ error: 'Gimnasio no encontrado' });
     }
@@ -101,7 +100,7 @@ const updateGimnasio = async (req, res) => {
 const deleteGimnasio = async (req, res) => {
   const id = req.params.id;
   try {
-    const result = await pool.query('DELETE FROM Gimnasio WHERE id_gimnasio = $1 RETURNING *', [id]);
+    const result = await connection.query('DELETE FROM Gimnasio WHERE id_gimnasio = $1 RETURNING *', [id]);
     if (result.rows.length === 0) {
       return res.status(404).json({ error: 'Gimnasio no encontrado' });
     }

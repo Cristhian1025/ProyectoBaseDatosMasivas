@@ -1,4 +1,4 @@
-/*
+
 const express = require('express');
 const router = express.Router();
 const gimnasioController = require('../controllers/gimnasioController');
@@ -12,4 +12,3 @@ router.delete('/:id', gimnasioController.deleteGimnasio);
 
 module.exports = router;
 
-*/

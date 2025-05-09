@@ -1,6 +1,5 @@
 const { Pool } = require('pg');
-const connectionString = process.env.DATABASE_URL; // Asegúrate de configurar la variable de entorno DATABASE_URL
-const pool = new Pool({ connectionString });
+const connection = require('../database/conexion');
 
 /**
  * Obtiene todos los clientes de la base de datos.
@@ -9,7 +8,7 @@ const pool = new Pool({ connectionString });
  */
 const getClientes = async (req, res) => {
     try {
-        const result = await pool.query('SELECT * FROM Cliente');
+        const result = await connection.query('SELECT * FROM Cliente');
         res.status(200).json(result.rows);
     } catch (error) {
         console.error(error);
@@ -25,7 +24,7 @@ const getClientes = async (req, res) => {
 const getClienteById = async (req, res) => {
     const id = req.params.id;
     try {
-        const result = await pool.query('SELECT * FROM Cliente WHERE id_cliente = $1', [id]);
+        const result = await connection.query('SELECT * FROM Cliente WHERE id_cliente = $1', [id]);
         if (result.rows.length === 0) {
             return res.status(404).json({ error: 'Cliente no encontrado' });
         }
@@ -50,7 +49,7 @@ const createCliente = async (req, res) => {
     }
 
     try {
-        const result = await pool.query(
+        const result = await connection.query(
             `INSERT INTO Cliente (id_usuario, nombre, apellido, fecha_nacimiento, telefono, fecha_inscripcion, condicion_medica, id_gimnasio) 
              VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *`,
             [id_usuario, nombre, apellido, fecha_nacimiento, telefono, fecha_inscripcion, condicion_medica, id_gimnasio]
@@ -128,7 +127,7 @@ const updateCliente = async (req, res) => {
         query += ` WHERE id_cliente = $${paramNumber} RETURNING *`;
         values.push(id);
 
-        const result = await pool.query(query, values);
+        const result = await connection.query(query, values);
 
         if (result.rows.length === 0) {
             return res.status(404).json({ error: 'Cliente no encontrado' });
@@ -148,7 +147,7 @@ const updateCliente = async (req, res) => {
 const deleteCliente = async (req, res) => {
     const id = req.params.id;
     try {
-        const result = await pool.query('DELETE FROM Cliente WHERE id_cliente = $1 RETURNING *', [id]);
+        const result = await connection.query('DELETE FROM Cliente WHERE id_cliente = $1 RETURNING *', [id]);
         if (result.rows.length === 0) {
             return res.status(404).json({ error: 'Cliente no encontrado' });
         }
