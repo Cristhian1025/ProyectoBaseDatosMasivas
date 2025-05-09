@@ -120,4 +120,8 @@ module.exports = {
   createEmpleado,
   updateEmpleado,
   deleteEmpleado
+<<<<<<< HEAD
 };
+=======
+};
+>>>>>>> bce96fe8d71a6900a08539552ee1773144cd8001

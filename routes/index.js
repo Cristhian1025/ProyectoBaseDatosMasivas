@@ -4,7 +4,7 @@ const router = express.Router();
 // Importar todas las rutas de las entidades
 
 const gimnasioRoutes = require('./gimnasioRoutes');
-//const usuarioRoutes = require('./usuarioRoutes');  
+const usuarioRoutes = require('./usuarioRoutes');  
 
 
 const clienteRoutes = require('./clienteRoutes');
@@ -22,8 +22,8 @@ const objetivoClienteRoutes = require('./objetivoClienteRoutes');  */
 
 
 router.use('/gimnasios', gimnasioRoutes);
-/*
-router.use('/usuarios', usuarioRoutes);   */
+
+router.use('/usuarios', usuarioRoutes);   
 
 
 router.use('/clientes', clienteRoutes);
