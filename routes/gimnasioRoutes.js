@@ -11,4 +11,3 @@ router.put('/:id', gimnasioController.updateGimnasio);
 router.delete('/:id', gimnasioController.deleteGimnasio);
 
 module.exports = router;
-

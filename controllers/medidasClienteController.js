@@ -7,7 +7,7 @@ const getMedidasCliente = async (req, res) => {
     res.status(200).json(result.rows);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Error al obtener las medidas del cliente' });
+    res.status(500).json({ error: 'Error al obtener las medidas de los clientesssd' });
   }
 };
 

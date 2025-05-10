@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const clienteController = require('../controllers/empleadoController');
+const empleadoController = require('../controllers/empleadoController');
 
 // Rutas para la entidad Cliente
 router.get('/', empleadoController.getEmpleados);

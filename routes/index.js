@@ -5,16 +5,17 @@ const router = express.Router();
 
 const gimnasioRoutes = require('./gimnasioRoutes');
 const usuarioRoutes = require('./usuarioRoutes');  
-
-
 const clienteRoutes = require('./clienteRoutes');
-
-/*
+const planRoutes = require('./planRoutes');
 const empleadoRoutes = require('./empleadoRoutes');
 const medidasClienteRoutes = require('./medidasClienteRoutes');
-const planRoutes = require('./planRoutes');
+const objetivoClienteRoutes = require('./objetivoClienteRoutes'); 
 const promocionRoutes = require('./promocionRoutes');
-const objetivoClienteRoutes = require('./objetivoClienteRoutes');  */
+const promocionPlanRoutes = require('./promocionPlanRoutes');
+
+const clientePlanRoutes = require('./clientePlanRoutes');
+
+const instructorRoutes = require('./instructorRoutes');
 
 
 
@@ -22,18 +23,15 @@ const objetivoClienteRoutes = require('./objetivoClienteRoutes');  */
 
 
 router.use('/gimnasios', gimnasioRoutes);
-
 router.use('/usuarios', usuarioRoutes);   
-
-
 router.use('/clientes', clienteRoutes);
-
-/*
+router.use('/planes', planRoutes);
 router.use('/empleados', empleadoRoutes);
 router.use('/medidas-clientes', medidasClienteRoutes);
-router.use('/planes', planRoutes);
-router.use('/promociones', promocionRoutes);
 router.use('/objetivos-clientes', objetivoClienteRoutes);
-*/
+router.use('/promociones', promocionRoutes);
+router.use('/promocionPlan', promocionPlanRoutes);
+router.use('/clientePlan', clientePlanRoutes);
+router.use('/instructores', instructorRoutes);
 
 module.exports = router;
