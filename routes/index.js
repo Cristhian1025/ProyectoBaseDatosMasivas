@@ -12,15 +12,10 @@ const medidasClienteRoutes = require('./medidasClienteRoutes');
 const objetivoClienteRoutes = require('./objetivoClienteRoutes'); 
 const promocionRoutes = require('./promocionRoutes');
 const promocionPlanRoutes = require('./promocionPlanRoutes');
-
 const clientePlanRoutes = require('./clientePlanRoutes');
-
 const instructorRoutes = require('./instructorRoutes');
 
-
-
 // Usar las rutas de las entidades, definiendo un prefijo para cada una
-
 
 router.use('/gimnasios', gimnasioRoutes);
 router.use('/usuarios', usuarioRoutes);   

@@ -1,6 +1,8 @@
 const { Pool } = require('pg');
 const connection = require('../database/conexion');
 
+
+
 /**
  * Obtiene todos los clientes de la base de datos.
  * @param {Request} req - El objeto de la solicitud de Express.
