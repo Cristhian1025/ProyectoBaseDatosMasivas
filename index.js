@@ -1,59 +1,51 @@
-
 const express = require('express');
 const cors = require('cors');
-
 const connection = require('./database/conexion');
 const path = require('path');
-
 const app = express();
-app.use(express.json());
-const router = express.Router();
 
-const routes = require('./routes');
-app.use('/api', routes);
+// Importar Swagger
+const swaggerUi = require('swagger-ui-express');
+const swaggerFile = require('./swagger-output.json');
 
-
-// codigo para probar Controller
-const clienteController = require('./controllers/ClienteController');
-
-//   Rutas para la entidad Cliente
-app.get('/', clienteController.getClientes);
-//app.get('/:id', clienteController.getClienteById);
-
+// Configuración de middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors()); // Habilita CORS para evitar problemas de origen cruzado en desarrollo
+app.use(cors({ origin: 'http://localhost:5173' }));
 
-//app.use('/api', routes);
-
+// Definir puerto
 const PORT = 3000;
+
+// Configurar rutas
+const routes = require('./routes');
+app.use('/api', routes);
 
 // API de prueba
 app.get('/api/prueba', (req, res) => {
     res.status(200).json({
-        message: 'API funcionando correctamente, SERVIDOR NUEEEEVO',
+        message: 'API funcionando correctamente',
         port: PORT,
         status: 'success'
     });
 });
 
-
+// Configurar Swagger
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 // Iniciar el servidor
 app.listen(PORT, () => {
     console.log(`Servidor corriendo en el puerto ${PORT}`);
 });
 
-// manejo del cierre de la aplicación
-
+// Manejo del cierre de la aplicación
 process.on('SIGINT', async () => {
     console.log("Cerrando el servidor...");
     try {
-        await connection.end(); // cerrar el Pool de conexiones
+        await connection.end();
         console.log("Conexión a la base de datos cerrada.");
-        process.exit(0); // Sale del proceso
+        process.exit(0);
     } catch (error) {
         console.error("Error al cerrar la conexión a la base de datos:", error);
-        process.exit(1); // Sale del proceso mostrando el error
+        process.exit(1);
     }
 });

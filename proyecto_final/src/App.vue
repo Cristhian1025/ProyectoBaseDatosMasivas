@@ -1,21 +1,28 @@
-import Dashboard from './components/Dashboard.vue'; // Ajusta la ruta si es necesario
-
 <template>
   <div id="app">
-    <Dashboard>
-      <h1>Bienvenido a tu Dashboard</h1>
-      <p>Este es el contenido principal de tu aplicación.</p>
-    </Dashboard>
+    <router-view />
   </div>
 </template>
 
 <script>
 import { defineComponent } from 'vue';
-import Dashboard from './components/Dashboard.vue';
-
 export default defineComponent({
-  components: {
-    Dashboard,
-  },
+  name: 'App',
 });
 </script>
+
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  height: 100vh; 
+}
+body {
+  margin: 0; 
+  height: 100vh; /* Asegura que el body ocupe toda la altura de la ventana */
+}
+</style>
+

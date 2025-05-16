@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
+
+
+
 // Importar todas las rutas de las entidades
 
 const gimnasioRoutes = require('./gimnasioRoutes');
