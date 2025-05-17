@@ -39,9 +39,9 @@
             <li>
               <button
                 class="text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 px-3 py-1 rounded-md"
-                @click="navigateTo('/dashboard')"
+                @click="navigateTo('/Usuarios')"
               >
-                Dashboard
+                Usuarios
               </button>
             </li>
           </ul>

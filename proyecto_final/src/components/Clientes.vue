@@ -1,120 +1,88 @@
 <template>
   <div class="flex flex-col min-h-screen bg-gray-100 dark:bg-gray-900">
     <Header />
-    <h2 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Gestión de Empleados</h2>
-    <div class="mb-4">
-        <button @click="addEmpleado" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-          Añadir Nuevo Empleado
-        </button>
-      </div>
-    
-  <div class="container mx-auto p-4">
-    <h1 class="text-3xl font-bold mb-6 text-center text-gray-800 dark:text-white">
-      Lista de Clientes
-    </h1>
+    <div class="clientes-container p-6 flex-1 py-10 w-full">
+    <h2 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Gestión de Clientes</h2>
 
-    <div v-if="loading" class="text-center text-gray-600 dark:text-gray-400">
-      Cargando clientes...
+    <div class="mb-4">
+      <button @click="addCliente" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+        Añadir Nuevo Cliente
+      </button>
     </div>
-    <div v-else-if="error" class="text-center text-red-500">
-      Error: {{ error }}
-    </div>
-    <div v-else>
-      <div class="overflow-x-auto">
-        <table class="min-w-full leading-normal shadow-md rounded-lg overflow-hidden">
-          <thead class="bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-200">
+    
+    <div class="p-6 flex-1 py-10 w-full">
+      <h1 class="text-3xl font-bold mb-6 text-center text-gray-800 dark:text-white">
+        Lista de Clientes
+      </h1>
+
+      <div v-if="loading" class="text-center text-gray-600 dark:text-gray-400">
+        Cargando clientes...
+      </div>
+      <div v-else-if="error" class="text-center text-red-500">
+        Error: {{ error }}
+      </div>
+      <div v-else class="shadow-md overflow-hidden rounded-md">
+        <table class="min-w-full bg-white dark:bg-gray-800">
+          <thead class="bg-gray-50 dark:bg-gray-700">
             <tr>
-              <th
-                class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold uppercase tracking-wider"
-              >
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                 ID Cliente
               </th>
-              <th
-                class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold uppercase tracking-wider"
-              >
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                 Nombre
               </th>
-              <th
-                class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold uppercase tracking-wider"
-              >
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                 Apellido
               </th>
-              <th
-                class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold uppercase tracking-wider"
-              >
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                 Fecha de Nacimiento
               </th>
-              <th
-                class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold uppercase tracking-wider"
-              >
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                 Teléfono
               </th>
-              <th
-                class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold uppercase tracking-wider"
-              >
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                 Fecha de Inscripción
               </th>
-              <th
-                class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold uppercase tracking-wider"
-              >
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                 Condición Médica
               </th>
-              <th
-                class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold uppercase tracking-wider"
-              >
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                 ID Gimnasio
               </th>
               <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                 Acciones
-
               </th>
             </tr>
           </thead>
-          <tbody class="bg-white dark:bg-gray-800">
+          <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
             <tr v-for="cliente in clientes" :key="cliente.id_cliente">
-              <td class="px-5 py-5 border-b border-gray-200 text-sm">
-                <span class="text-gray-900 dark:text-white">{{
-                  cliente.id_cliente
-                }}</span>
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
+                {{ cliente.id_cliente }}
               </td>
-              <td class="px-5 py-5 border-b border-gray-200 text-sm">
-                <span class="text-gray-900 dark:text-white">{{
-                  cliente.nombre
-                }}</span>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">
+                {{ cliente.nombre }}
               </td>
-              <td class="px-5 py-5 border-b border-gray-200 text-sm">
-                <span class="text-gray-900 dark:text-white">{{
-                  cliente.apellido
-                }}</span>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">
+                {{ cliente.apellido }}
               </td>
-              <td class="px-5 py-5 border-b border-gray-200 text-sm">
-                <span class="text-gray-900 dark:text-white">{{
-                  cliente.fecha_nacimiento
-                }}</span>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">
+                {{ cliente.fecha_nacimiento }}
               </td>
-              <td class="px-5 py-5 border-b border-gray-200 text-sm">
-                <span class="text-gray-900 dark:text-white">{{
-                  cliente.telefono
-                }}</span>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">
+                {{ cliente.telefono }}
               </td>
-              <td class="px-5 py-5 border-b border-gray-200 text-sm">
-                <span class="text-gray-900 dark:text-white">{{
-                  cliente.fecha_inscripcion
-                }}</span>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">
+                {{ cliente.fecha_inscripcion }}
               </td>
-              <td class="px-5 py-5 border-b border-gray-200 text-sm">
-                <span class="text-gray-900 dark:text-white">{{
-                  cliente.condicion_medica
-                }}</span>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">
+                {{ cliente.condicion_medica }}
               </td>
-              <td class="px-5 py-5 border-b border-gray-200 text-sm">
-                <span class="text-gray-900 dark:text-white">{{
-                  cliente.id_gimnasio
-                }}</span>
+               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">
+                {{ cliente.id_gimnasio }}
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                 <button @click="editCliente(cliente)" class="text-indigo-600 hover:text-indigo-900 mr-2">Editar</button>
-                <button @click="eliminarCliente(cliente.id)" class="text-red-600 hover:text-red-900">Eliminar</button>
+                <button @click="eliminarCliente(cliente.id_cliente)" class="text-red-600 hover:text-red-900">Eliminar</button>
               </td>
             </tr>
           </tbody>
@@ -122,7 +90,7 @@
       </div>
     </div>
   </div>
-  <Footer />
+    <Footer />
   </div>
 </template>
 
@@ -143,6 +111,20 @@ export default {
     const loading = ref(true);
     const error = ref(null);
 
+    const addEmpleado = () => {
+      // Implement your add empleado logic here.  This is just a placeholder
+      console.log('Add Empleado clicked');
+    };
+
+    const editCliente = (cliente) => {
+      // Implement your edit cliente logic here
+      console.log('Edit cliente', cliente)
+    }
+
+    const eliminarCliente = (id) => {
+      // Implement delete cliente logic
+      console.log('Delete cliente', id);
+    }
     onMounted(() => {
       axios
         .get("http://localhost:3000/api/clientes")
@@ -160,146 +142,100 @@ export default {
       clientes,
       loading,
       error,
+      addEmpleado,
+      editCliente,
+      eliminarCliente
     };
   },
 };
 </script>
 
 <style scoped>
-/* Estilos scoped para el componente Clientes */
-.container {
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
+.text-2xl{
+  font-size: 1.5rem;
+  line-height: 2rem;
+}
+.font-bold{
+  font-weight: 700;
+}
+.mb-4{
+  margin-bottom: 1rem;
+}
+.text-gray-900{
+  color: #111827;
+}
+.dark\:text-white{
+  color: #fff;
+}
+.bg-green-500{
+  background-color: #16a34a;
+}
+.hover\:bg-green-700:hover{
+  background-color: #15803d;
+}
+.text-white{
+  color: #fff;
+}
+.py-2{
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+.px-4{
   padding-left: 1rem;
   padding-right: 1rem;
 }
-
-.text-3xl {
-  font-size: 1.875rem; /* 30px */
-  line-height: 2.25rem; /* 36px */
-  font-weight: 700; /* bold */
+.rounded{
+  border-radius: 0.25rem;
 }
-
-.mb-6 {
-  margin-bottom: 1.5rem; /* 24px */
+.shadow-md{
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
-
-.text-center {
-  text-align: center;
+.overflow-hidden{
+  overflow: hidden;
 }
-
-.text-gray-800 {
-  color: #1e293b; /* Gray 800 */
-}
-
-.dark\:text-white {
-  color: #fff; /* White */
-}
-
-.text-red-500 {
-  color: #ef4444; /* Red 500 */
-}
-
-.bg-gray-200 {
-  background-color: #edf2f7; /* Gray 200 */
-}
-
-.text-gray-700 {
-  color: #4a5568; /* Gray 700 */
-}
-
-.dark\:bg-gray-700 {
-  background-color: #4a5568; /* Dark Gray 700 */
-}
-
-.dark\:text-gray-200 {
-  color: #edf2f7; /* Dark Gray 200 */
-}
-
-.px-5 {
-  padding-left: 1.25rem; /* 20px */
-  padding-right: 1.25rem; /* 20px */
-}
-
-.py-3 {
-  padding-top: 0.75rem; /* 12px */
-  padding-bottom: 0.75rem; /* 12px */
-}
-
-.border-b-2 {
-  border-bottom-width: 2px;
-}
-
-.border-gray-200 {
-  border-color: #edf2f7; /* Gray 200 */
-}
-
-.text-left {
-  text-align: left;
-}
-
-.text-xs {
-  font-size: 0.75rem; /* 12px */
-  line-height: 1rem; /* 16px */
-}
-
-.font-semibold {
-  font-weight: 600; /* Semibold */
-}
-
-.uppercase {
-  text-transform: uppercase;
-}
-
-.tracking-wider {
-  letter-spacing: 0.05em; /* Ajusta según sea necesario */
-}
-
-.bg-white {
-  background-color: #fff;
-}
-
-.dark\:bg-gray-800 {
-  background-color: #1e293b; /* Dark Gray 800 */
-}
-
-.text-sm {
-  font-size: 0.875rem; /* 14px */
-  line-height: 1.25rem; /* 20px */
-}
-
-.text-gray-900 {
-  color: #1a202c; /* Gray 900 */
-}
-
-.dark\:text-white {
-  color: #fff; /* White */
-}
-
-.overflow-x-auto {
-  overflow-x: auto;
-}
-
-.min-w-full {
+.min-w-full{
   min-width: 100%;
 }
-
-.leading-normal {
-  line-height: 1.5; /* Normal */
+.bg-white{
+  background-color: #fff;
 }
-
-.shadow-md {
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+.dark\:bg-gray-800{
+  background-color: #1f2937;
 }
-
-.rounded-lg {
-  border-radius: 0.5rem; /* 8px */
+.bg-gray-50{
+  background-color: #f9fafb;
 }
-
-.overflow-hidden {
-  overflow: hidden;
+.dark\:bg-gray-700{
+  background-color: #374151;
+}
+thead tr th{
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  text-align: left;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.025em;
+  color: #6b7280;
+}
+tbody tr td{
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  white-space: nowrap;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: #111827;
+}
+tbody tr{
+  border-bottom-width: 1px;
+  border-color: #e5e7eb;
+}
+tbody tr:last-child{
+  border-bottom-width: 0;
 }
 .dark\:text-gray-400{
   color: #9ca3af;
@@ -348,4 +284,5 @@ export default {
 .hover\:text-red-900:hover{
   color: #b91c1c;
 }
+
 </style>
