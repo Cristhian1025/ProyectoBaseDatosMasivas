@@ -51,6 +51,47 @@
         </form>
       </div>
 
+      <div v-if="mostrarFormularioEditar" class="bg-white dark:bg-gray-800 shadow-md rounded-md p-6 mb-4">
+        <h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Editar Usuario</h3>
+        <form @submit.prevent="actualizarUsuario">
+          <div class="mb-4">
+            <label for="edit_email" class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">Email:</label>
+            <input v-model="usuarioEditado.email" type="email" id="edit_email" required
+                   class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+          </div>
+          <div class="mb-4">
+            <label for="edit_contrasena" class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">Contraseña:</label>
+            <input v-model="usuarioEditado.contrasena" type="password" id="edit_contrasena" required
+                   class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+          </div>
+          <div class="mb-4">
+            <label for="edit_rol" class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">Rol:</label>
+            <select v-model="usuarioEditado.rol" id="edit_rol" required
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+              <option value="Instructor">Instructor</option>
+              <option value="Administrador">Administrador</option>
+              <option value="Recepción">Recepción</option>
+            </select>
+          </div>
+          <div class="mb-4">
+            <label for="edit_activo" class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">Activo:</label>
+            <select v-model="usuarioEditado.activo" id="edit_activo"
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+              <option :value="true">Sí</option>
+              <option :value="false">No</option>
+            </select>
+          </div>
+          <div class="flex items-center justify-between">
+            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+              Guardar Cambios
+            </button>
+            <button type="button" @click="mostrarFormularioEditar = false" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+              Cancelar
+            </button>
+          </div>
+        </form>
+      </div>
+
       <div class="shadow-md overflow-hidden rounded-md">
         <table class="min-w-full bg-white dark:bg-gray-800">
           <thead class="bg-gray-50 dark:bg-gray-700">
@@ -121,10 +162,18 @@ export default {
       rol: 'Instructor',
       activo: true
     });
+    const usuarioEditado = ref({ // Para el formulario de editar
+      id_usuario: null,
+      email: '',
+      contrasena: '',
+      rol: 'Instructor',
+      activo: true
+    });
     const mostrarFormularioAgregar = ref(false);
+    const mostrarFormularioEditar = ref(false);
 
     const agregarUsuario = () => {
-      const payload = { // Asegurar que los datos coincidan con lo que espera la API
+      const payload = {
         email: nuevoUsuario.value.email,
         contrasena: nuevoUsuario.value.contrasena,
         rol: nuevoUsuario.value.rol,
@@ -133,17 +182,15 @@ export default {
 
       axios.post("http://localhost:3000/api/usuarios", payload)
         .then(response => {
-          // Actualizar la lista de usuarios
           usuarios.value = [...usuarios.value, response.data];
-          // Resetear el formulario
           nuevoUsuario.value = {
             email: '',
             contrasena: '',
             rol: 'Instructor',
             activo: true
           };
-          mostrarFormularioAgregar.value = false; // Ocultar el formulario
-          alert('Usuario agregado exitosamente'); // Mostrar mensaje de éxito
+          mostrarFormularioAgregar.value = false;
+          alert('Usuario agregado exitosamente');
         })
         .catch(err => {
           error.value = err.message;
@@ -153,14 +200,52 @@ export default {
     };
 
     const editUsuario = (usuario) => {
-      // Implement your edit usuario logic here
-      console.log('Edit usuario', usuario)
-    }
+      usuarioEditado.value = { ...usuario }; // Copiar los datos del usuario a editar
+      mostrarFormularioEditar.value = true; // Mostrar el formulario de edición
+    };
+
+    const actualizarUsuario = () => {
+      const payload = {
+        email: usuarioEditado.value.email,
+        contrasena: usuarioEditado.value.contrasena,
+        rol: usuarioEditado.value.rol,
+        activo: usuarioEditado.value.activo,
+      };
+
+      axios.put(`http://localhost:3000/api/usuarios/${usuarioEditado.value.id_usuario}`, payload)
+        .then(response => {
+          // Actualizar el usuario en la lista local
+          const index = usuarios.value.findIndex(u => u.id_usuario === usuarioEditado.value.id_usuario);
+          if (index !== -1) {
+            usuarios.value[index] = { ...usuarioEditado.value };
+          }
+          mostrarFormularioEditar.value = false; // Ocultar el formulario
+          alert('Usuario actualizado exitosamente');
+        })
+        .catch(err => {
+          error.value = err.message;
+          console.error("Error al actualizar usuario:", err);
+          alert('Error al actualizar usuario');
+        });
+    };
 
     const eliminarUsuario = (id) => {
-      // Implement delete usuario logic
-      console.log('Delete usuario', id);
-    }
+      axios.delete(`http://localhost:3000/api/usuarios/${id}`)
+        .then(response => {
+          if (response.status === 200) {
+            usuarios.value = usuarios.value.filter(usuario => usuario.id_usuario !== id);
+            alert('Usuario eliminado exitosamente');
+          } else {
+            alert('No se pudo eliminar el usuario');
+          }
+        })
+        .catch(err => {
+          error.value = err.message;
+          console.error("Error al eliminar usuario:", err);
+          alert('Error al eliminar usuario');
+        });
+    };
+
     onMounted(() => {
       axios
         .get("http://localhost:3000/api/usuarios")
@@ -179,9 +264,12 @@ export default {
       loading,
       error,
       nuevoUsuario,
+      usuarioEditado,
       mostrarFormularioAgregar,
+      mostrarFormularioEditar,
       agregarUsuario,
       editUsuario,
+      actualizarUsuario,
       eliminarUsuario
     };
   },
