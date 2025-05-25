@@ -26,15 +26,15 @@ const getPlanById = async (req, res) => {
 };
 
 const createPlan = async (req, res) => {
-  const { nombre, descripcion, precio, duracion_semanas } = req.body;
-  if (!nombre || !descripcion || !precio || !duracion_semanas) {
+  const { nombre, descripcion, precio, duracion_meses } = req.body;
+  if (!nombre || !descripcion || !precio || !duracion_meses) {
     return res.status(400).json({ error: 'Faltan datos obligatorios para crear el plan' });
   }
   try {
     const result = await connection.query(
-      `INSERT INTO Plan (nombre, descripcion, precio, duracion_semanas)
+      `INSERT INTO Plan (nombre, descripcion, precio, duracion_meses)
        VALUES ($1, $2, $3, $4) RETURNING *`,
-      [nombre, descripcion, precio, duracion_semanas]
+      [nombre, descripcion, precio, duracion_meses]
     );
     res.status(201).json(result.rows[0]);
   } catch (error) {
@@ -45,8 +45,8 @@ const createPlan = async (req, res) => {
 
 const updatePlan = async (req, res) => {
   const id = req.params.id;
-  const { nombre, descripcion, precio, duracion_semanas } = req.body;
-  if (!nombre && !descripcion && !precio && !duracion_semanas) {
+  const { nombre, descripcion, precio, duracion_meses } = req.body;
+  if (!nombre && !descripcion && !precio && !duracion_meses) {
     return res.status(400).json({ error: 'Se requiere al menos un dato para actualizar el plan' });
   }
   try {
@@ -69,9 +69,9 @@ const updatePlan = async (req, res) => {
       values.push(precio);
       paramNumber++;
     }
-    if (duracion_semanas) {
-      query += `duracion_semanas = $${paramNumber}, `;
-      values.push(duracion_semanas);
+    if (duracion_meses) {
+      query += `duracion_meses = $${paramNumber}, `;
+      values.push(duracion_meses);
       paramNumber++;
     }
 

@@ -6,31 +6,143 @@
       <h2 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Gestión de Empleados</h2>
   
       <div class="mb-4">
-        <button @click="addEmpleado" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+        <button @click="mostrarFormularioAgregar = true" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
           Añadir Nuevo Empleado
         </button>
       </div>
-  
-      <div class="shadow-md overflow-hidden rounded-md">
+
+      <div v-if="mostrarFormularioAgregar" class="bg-white dark:bg-gray-800 shadow-md rounded-md p-6 mb-4">
+        <h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Agregar Nuevo Empleado</h3>
+        <form @submit.prevent="agregarEmpleado">
+          <div class="mb-4">
+            <label for="add_nombre" class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">Nombre:</label>
+            <input v-model="nuevoEmpleado.nombre" type="text" id="add_nombre" required
+                   class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+          </div>
+          <div class="mb-4">
+            <label for="add_apellido" class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">Apellido:</label>
+            <input v-model="nuevoEmpleado.apellido" type="text" id="add_apellido" required
+                   class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+          </div>
+          <div class="mb-4">
+            <label for="add_telefono" class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">Teléfono:</label>
+            <input v-model="nuevoEmpleado.telefono" type="text" id="add_telefono" required
+                   class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+          </div>
+          <div class="mb-4">
+            <label for="add_fecha_contratacion" class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">Fecha de Contratación:</label>
+            <input v-model="nuevoEmpleado.fecha_contratacion" type="date" id="add_fecha_contratacion" required
+                   class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+          </div>
+          <div class="mb-4">
+            <label for="add_puesto" class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">Puesto:</label>
+            <input v-model="nuevoEmpleado.puesto" type="text" id="add_puesto" required
+                   class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+          </div>
+          <div class="mb-4">
+            <label for="add_id_gimnasio" class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">ID Gimnasio:</label>
+            <input v-model.number="nuevoEmpleado.id_gimnasio" type="number" id="add_id_gimnasio" required
+                   class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+          </div>
+          <div class="mb-4">
+            <label for="add_id_usuario" class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">ID Usuario (opcional):</label>
+            <input v-model.number="nuevoEmpleado.id_usuario" type="number" id="add_id_usuario"
+                   class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+          </div>
+          <div class="flex items-center justify-between">
+            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+              Agregar Empleado
+            </button>
+            <button type="button" @click="mostrarFormularioAgregar = false" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+              Cancelar
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <div v-if="mostrarFormularioEditar" class="bg-white dark:bg-gray-800 shadow-md rounded-md p-6 mb-4">
+        <h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Editar Empleado</h3>
+        <form @submit.prevent="actualizarEmpleado">
+          <div class="mb-4">
+            <label for="edit_nombre" class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">Nombre:</label>
+            <input v-model="empleadoEditado.nombre" type="text" id="edit_nombre" required
+                   class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+          </div>
+          <div class="mb-4">
+            <label for="edit_apellido" class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">Apellido:</label>
+            <input v-model="empleadoEditado.apellido" type="text" id="edit_apellido" required
+                   class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+          </div>
+          <div class="mb-4">
+            <label for="edit_telefono" class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">Teléfono:</label>
+            <input v-model="empleadoEditado.telefono" type="text" id="edit_telefono" required
+                   class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+          </div>
+          <div class="mb-4">
+            <label for="edit_fecha_contratacion" class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">Fecha de Contratación:</label>
+            <input v-model="empleadoEditado.fecha_contratacion" type="date" id="edit_fecha_contratacion" required
+                   class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+          </div>
+          <div class="mb-4">
+            <label for="edit_puesto" class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">Puesto:</label>
+            <input v-model="empleadoEditado.puesto" type="text" id="edit_puesto" required
+                   class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+          </div>
+          <div class="mb-4">
+            <label for="edit_id_gimnasio" class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">ID Gimnasio:</label>
+            <input v-model.number="empleadoEditado.id_gimnasio" type="number" id="edit_id_gimnasio" required
+                   class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+          </div>
+          <div class="mb-4">
+            <label for="edit_id_usuario" class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">ID Usuario (opcional):</label>
+            <input v-model.number="empleadoEditado.id_usuario" type="number" id="edit_id_usuario"
+                   class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+          </div>
+          <div class="flex items-center justify-between">
+            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+              Guardar Cambios
+            </button>
+            <button type="button" @click="mostrarFormularioEditar = false" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+              Cancelar
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <div v-if="loading" class="text-center text-gray-600 dark:text-gray-400">
+        Cargando empleados...
+      </div>
+      <div v-else-if="error" class="text-center text-red-500">
+        Error: {{ error }}
+      </div>
+      <div v-else class="shadow-md overflow-hidden rounded-md">
         <table class="min-w-full bg-white dark:bg-gray-800">
           <thead class="bg-gray-50 dark:bg-gray-700">
             <tr>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">ID</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">ID Empleado</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">ID Usuario</th>
               <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Nombre</th>
               <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Apellido</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Teléfono</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Fecha Contratación</th>
               <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Puesto</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">ID Gimnasio</th>
               <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Acciones</th>
             </tr>
           </thead>
           <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-            <tr v-for="empleado in empleados" :key="empleado.id">
-              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">{{ empleado.id }}</td>
+            <tr v-for="empleado in empleados" :key="empleado.id_empleado">
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">{{ empleado.id_empleado }}</td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">{{ empleado.id_usuario }}</td>
               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">{{ empleado.nombre }}</td>
               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">{{ empleado.apellido }}</td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">{{ empleado.telefono }}</td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">{{ empleado.fecha_contratacion }}</td>
               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">{{ empleado.puesto }}</td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">{{ empleado.id_gimnasio }}</td>
               <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                 <button @click="editEmpleado(empleado)" class="text-indigo-600 hover:text-indigo-900 mr-2">Editar</button>
-                <button @click="eliminarEmpleado(empleado.id)" class="text-red-600 hover:text-red-900">Eliminar</button>
+                <button @click="eliminarEmpleado(empleado.id_empleado)" class="text-red-600 hover:text-red-900">Eliminar</button>
               </td>
             </tr>
           </tbody>
@@ -41,46 +153,166 @@
   </div>
 </template>
 
-<script setup>
-import { ref, reactive } from 'vue'
+<script>
+import { ref, onMounted } from 'vue'
+import axios from 'axios'
 import Header from '../components/Header.vue'
 import Footer from '../components/Footer.vue'
 
-const empleados = ref([
-  { id: 1, nombre: 'Ana', apellido: 'Pérez', puesto: 'Gerente' },
-  { id: 2, nombre: 'Carlos', apellido: 'López', puesto: 'Instructor' },
-  { id: 3, nombre: 'Sofía', apellido: 'Gómez', puesto: 'Recepcionista' },
-  { id: 4, nombre: 'Javier', apellido: 'Rodríguez', puesto: 'Entrenador Personal' },
-])
+export default {
+  name: "Empleados",
+  components: {
+    Header,
+    Footer,
+  },
+  setup() {
+    const empleados = ref([]);
+    const loading = ref(true);
+    const error = ref(null);
 
-const nuevoEmpleado = reactive({
-  id: null,
-  nombre: '',
-  apellido: '',
-  puesto: ''
-})
+    const nuevoEmpleado = ref({
+      id_usuario: null, // Optional, can be null
+      nombre: '',
+      apellido: '',
+      telefono: '',
+      fecha_contratacion: '', // YYYY-MM-DD format
+      puesto: '',
+      id_gimnasio: null,
+    });
 
-const addEmpleado = () => {
-  const maxId = Math.max(...empleados.value.map(e => e.id), 0);
-  nuevoEmpleado.id = maxId + 1;
-  empleados.value.push({ ...nuevoEmpleado });
-  limpiarFormulario();
-}
+    const empleadoEditado = ref({
+      id_empleado: null,
+      id_usuario: null,
+      nombre: '',
+      apellido: '',
+      telefono: '',
+      fecha_contratacion: '',
+      puesto: '',
+      id_gimnasio: null,
+    });
 
-const editEmpleado = (empleado) => {
-  // Implementar la lógica de edición aquí
-  console.log('Editar empleado:', empleado);
-}
+    const mostrarFormularioAgregar = ref(false);
+    const mostrarFormularioEditar = ref(false);
 
-const eliminarEmpleado = (id) => {
-  empleados.value = empleados.value.filter(empleado => empleado.id !== id);
-}
+    const fetchEmpleados = () => {
+      axios.get("http://localhost:3000/api/empleados")
+        .then((response) => {
+          empleados.value = response.data;
+          loading.value = false;
+        })
+        .catch((err) => {
+          error.value = err.message;
+          loading.value = false;
+          console.error("Error al cargar empleados:", err);
+          alert('Error al cargar empleados');
+        });
+    };
 
-const limpiarFormulario = () => {
-  nuevoEmpleado.nombre = '';
-  nuevoEmpleado.apellido = '';
-  nuevoEmpleado.puesto = '';
-}
+    const agregarEmpleado = () => {
+      const payload = {
+        id_usuario: nuevoEmpleado.value.id_usuario || null, // Ensure null if not provided
+        nombre: nuevoEmpleado.value.nombre,
+        apellido: nuevoEmpleado.value.apellido,
+        telefono: nuevoEmpleado.value.telefono,
+        fecha_contratacion: nuevoEmpleado.value.fecha_contratacion,
+        puesto: nuevoEmpleado.value.puesto,
+        id_gimnasio: nuevoEmpleado.value.id_gimnasio,
+      };
+
+      axios.post("http://localhost:3000/api/empleados", payload)
+        .then(response => {
+          empleados.value.push(response.data);
+          nuevoEmpleado.value = { // Reset form
+            id_usuario: null,
+            nombre: '',
+            apellido: '',
+            telefono: '',
+            fecha_contratacion: '',
+            puesto: '',
+            id_gimnasio: null,
+          };
+          mostrarFormularioAgregar.value = false;
+          alert('Empleado agregado exitosamente');
+        })
+        .catch(err => {
+          error.value = err.message;
+          console.error("Error al agregar empleado:", err);
+          alert('Error al agregar empleado');
+        });
+    };
+
+    const editEmpleado = (empleado) => {
+      // Ensure date format is YYYY-MM-DD for input type="date"
+      empleadoEditado.value = { 
+        ...empleado,
+        fecha_contratacion: empleado.fecha_contratacion ? new Date(empleado.fecha_contratacion).toISOString().split('T')[0] : ''
+      }; 
+      mostrarFormularioEditar.value = true;
+    };
+
+    const actualizarEmpleado = () => {
+      const payload = {
+        id_usuario: empleadoEditado.value.id_usuario || null,
+        nombre: empleadoEditado.value.nombre,
+        apellido: empleadoEditado.value.apellido,
+        telefono: empleadoEditado.value.telefono,
+        fecha_contratacion: empleadoEditado.value.fecha_contratacion,
+        puesto: empleadoEditado.value.puesto,
+        id_gimnasio: empleadoEditado.value.id_gimnasio,
+      };
+
+      axios.put(`http://localhost:3000/api/empleados/${empleadoEditado.value.id_empleado}`, payload)
+        .then(response => {
+          const index = empleados.value.findIndex(e => e.id_empleado === empleadoEditado.value.id_empleado);
+          if (index !== -1) {
+            empleados.value[index] = { ...empleadoEditado.value };
+          }
+          mostrarFormularioEditar.value = false;
+          alert('Empleado actualizado exitosamente');
+        })
+        .catch(err => {
+          error.value = err.message;
+          console.error("Error al actualizar empleado:", err);
+          alert('Error al actualizar empleado');
+        });
+    };
+
+    const eliminarEmpleado = (id) => {
+      axios.delete(`http://localhost:3000/api/empleados/${id}`)
+        .then(response => {
+          if (response.status === 200) {
+            empleados.value = empleados.value.filter(empleado => empleado.id_empleado !== id);
+            alert('Empleado eliminado exitosamente');
+          } else {
+            alert('No se pudo eliminar el empleado');
+          }
+        })
+        .catch(err => {
+          error.value = err.message;
+          console.error("Error al eliminar empleado:", err);
+          alert('Error al eliminar empleado');
+        });
+    };
+
+    onMounted(() => {
+      fetchEmpleados();
+    });
+
+    return {
+      empleados,
+      loading,
+      error,
+      nuevoEmpleado,
+      empleadoEditado,
+      mostrarFormularioAgregar,
+      mostrarFormularioEditar,
+      agregarEmpleado,
+      editEmpleado,
+      actualizarEmpleado,
+      eliminarEmpleado,
+    };
+  },
+};
 </script>
 
 <style scoped>
@@ -219,6 +451,63 @@ tbody tr:last-child{
 }
 .hover\:text-red-900:hover{
   color: #b91c1c;
+}
+
+/* Form Styles */
+input[type="email"],
+input[type="password"],
+input[type="text"],
+input[type="date"],
+input[type="number"],
+select {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 0.375rem;
+  border-width: 1px;
+  border-color: #e0e0e0;
+  color: #374151;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  box-shadow: inset 0 1px 3px 0 rgba(0, 0, 0, 0.06);
+  transition-property: border-color, box-shadow;
+  transition-duration: 150ms;
+  outline: none;
+}
+
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="text"]:focus,
+input[type="date"]:focus,
+input[type="number"]:focus,
+select:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+.bg-blue-500 {
+  background-color: #3b82f6;
+}
+.bg-blue-500:hover {
+  background-color: #2563eb;
+}
+.bg-gray-300 {
+  background-color: #d1d5db;
+}
+.bg-gray-300:hover {
+  background-color: #b0b3b8;
+}
+.text-gray-800{
+  color: #374151;
+}
+
+.flex{
+  display: flex;
+}
+.items-center{
+  align-items: center;
+}
+.justify-between{
+  justify-content: space-between;
 }
 
 </style>

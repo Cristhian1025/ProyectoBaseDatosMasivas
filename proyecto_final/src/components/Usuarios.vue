@@ -25,12 +25,9 @@
           </div>
           <div class="mb-4">
             <label for="rol" class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">Rol:</label>
-            <select v-model="nuevoUsuario.rol" id="rol" required
-                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-              <option value="Instructor">Instructor</option>
-              <option value="Administrador">Administrador</option>
-              <option value="Recepción">Recepción</option>
-            </select>
+            <input v-model="nuevoUsuario.rol" type="text" id="rol" required
+                   class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                   placeholder="Ej: Instructor, Administrador, Recepción">
           </div>
           <div class="mb-4">
             <label for="activo" class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">Activo:</label>
@@ -66,12 +63,9 @@
           </div>
           <div class="mb-4">
             <label for="edit_rol" class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">Rol:</label>
-            <select v-model="usuarioEditado.rol" id="edit_rol" required
-                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-              <option value="Instructor">Instructor</option>
-              <option value="Administrador">Administrador</option>
-              <option value="Recepción">Recepción</option>
-            </select>
+            <input v-model="usuarioEditado.rol" type="text" id="edit_rol" required
+                   class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                   placeholder="Ej: Instructor, Administrador, Recepción">
           </div>
           <div class="mb-4">
             <label for="edit_activo" class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">Activo:</label>
@@ -159,14 +153,14 @@ export default {
     const nuevoUsuario = ref({ // Para el formulario de agregar
       email: '',
       contrasena: '',
-      rol: 'Instructor',
+      rol: '',
       activo: true
     });
     const usuarioEditado = ref({ // Para el formulario de editar
       id_usuario: null,
       email: '',
       contrasena: '',
-      rol: 'Instructor',
+      rol: '',
       activo: true
     });
     const mostrarFormularioAgregar = ref(false);
@@ -186,7 +180,7 @@ export default {
           nuevoUsuario.value = {
             email: '',
             contrasena: '',
-            rol: 'Instructor',
+            rol: '',
             activo: true
           };
           mostrarFormularioAgregar.value = false;
@@ -414,6 +408,7 @@ tbody tr:last-child{
 /* Form Styles */
 input[type="email"],
 input[type="password"],
+input[type="text"],
 select {
   width: 100%;
   padding: 0.75rem;
@@ -431,6 +426,7 @@ select {
 
 input[type="email"]:focus,
 input[type="password"]:focus,
+input[type="text"]:focus,
 select:focus {
   border-color: #3b82f6;
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);

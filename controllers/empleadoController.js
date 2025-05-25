@@ -26,15 +26,19 @@ const getEmpleadoById = async (req, res) => {
 };
 
 const createEmpleado = async (req, res) => {
-  const { nombre, apellido, cargo, email, telefono, id_gimnasio } = req.body;
-  if (!nombre || !apellido || !cargo || !email || !telefono || !id_gimnasio) {
+  // Destructure fields as per the database schema and frontend payload
+  const { id_usuario, nombre, apellido, telefono, fecha_contratacion, puesto, id_gimnasio } = req.body;
+
+  // Validate mandatory fields
+  if (!nombre || !apellido || !telefono || !fecha_contratacion || !puesto || !id_gimnasio) {
     return res.status(400).json({ error: 'Faltan datos obligatorios para crear el empleado' });
   }
+
   try {
     const result = await connection.query(
-      `INSERT INTO Empleado (nombre, apellido, cargo, email, telefono, id_gimnasio)
-       VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,
-      [nombre, apellido, cargo, email, telefono, id_gimnasio]
+      `INSERT INTO Empleado (id_usuario, nombre, apellido, telefono, fecha_contratacion, puesto, id_gimnasio)
+       VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *`,
+      [id_usuario, nombre, apellido, telefono, fecha_contratacion, puesto, id_gimnasio]
     );
     res.status(201).json(result.rows[0]);
   } catch (error) {
@@ -45,49 +49,69 @@ const createEmpleado = async (req, res) => {
 
 const updateEmpleado = async (req, res) => {
   const id = req.params.id;
-  const { nombre, apellido, cargo, email, telefono, id_gimnasio } = req.body;
-  if (!nombre && !apellido && !cargo && !email && !telefono && !id_gimnasio) {
+  // Destructure fields as per the database schema and frontend payload
+  // id_usuario can be null, so check for undefined explicitly
+  const { id_usuario, nombre, apellido, telefono, fecha_contratacion, puesto, id_gimnasio } = req.body;
+
+  // Check if at least one field is provided for update
+  // Use 'undefined' check for id_usuario as it can be null
+  if (
+    nombre === undefined &&
+    apellido === undefined &&
+    telefono === undefined &&
+    fecha_contratacion === undefined &&
+    puesto === undefined &&
+    id_gimnasio === undefined &&
+    id_usuario === undefined // Check for id_usuario explicitly
+  ) {
     return res.status(400).json({ error: 'Se requiere al menos un dato para actualizar el empleado' });
   }
+
   try {
     let query = 'UPDATE Empleado SET ';
     const values = [];
     let paramNumber = 1;
 
-    if (nombre) {
+    // Conditionally add fields to the query if they are provided in the request body
+    if (nombre !== undefined) {
       query += `nombre = $${paramNumber}, `;
       values.push(nombre);
       paramNumber++;
     }
-    if (apellido) {
+    if (apellido !== undefined) {
       query += `apellido = $${paramNumber}, `;
       values.push(apellido);
       paramNumber++;
     }
-    if (cargo) {
-      query += `cargo = $${paramNumber}, `;
-      values.push(cargo);
-      paramNumber++;
-    }
-    if (email) {
-      query += `email = $${paramNumber}, `;
-      values.push(email);
-      paramNumber++;
-    }
-    if (telefono) {
+    if (telefono !== undefined) {
       query += `telefono = $${paramNumber}, `;
       values.push(telefono);
       paramNumber++;
     }
-    if (id_gimnasio) {
+    if (fecha_contratacion !== undefined) {
+      query += `fecha_contratacion = $${paramNumber}, `;
+      values.push(fecha_contratacion);
+      paramNumber++;
+    }
+    if (puesto !== undefined) { // Corrected from 'cargo' to 'puesto'
+      query += `puesto = $${paramNumber}, `;
+      values.push(puesto);
+      paramNumber++;
+    }
+    if (id_gimnasio !== undefined) {
       query += `id_gimnasio = $${paramNumber}, `;
       values.push(id_gimnasio);
       paramNumber++;
     }
+    if (id_usuario !== undefined) { // Allow updating id_usuario, including setting it to null
+      query += `id_usuario = $${paramNumber}, `;
+      values.push(id_usuario);
+      paramNumber++;
+    }
 
-    query = query.slice(0, -2);
+    query = query.slice(0, -2); // Remove the trailing ', '
     query += ` WHERE id_empleado = $${paramNumber} RETURNING *`;
-    values.push(id);
+    values.push(id); // Add the ID for the WHERE clause
 
     const result = await connection.query(query, values);
     if (result.rows.length === 0) {
