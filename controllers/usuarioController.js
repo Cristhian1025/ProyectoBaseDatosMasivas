@@ -26,16 +26,16 @@ const getUsuarioById = async (req, res) => {
 };
 
 const createUsuario = async (req, res) => {
-  const { email, contrasena, rol, activo } = req.body;
-  if (!email || !contrasena || !rol || !activo) {
+  const {id_usuario, email, contrasena, rol, activo } = req.body;
+  if (!id_usuario || !email || !contrasena || !rol || !activo) {
     return res.status(400).json({ error: 'Faltan datos obligatorios para crear el usuario' });
   }
   try {
 
     const result = await connection.query(
-      `INSERT INTO Usuario (email, contrasena, rol, activo) 
-       VALUES ($1, $2, $3, $4) RETURNING *`,
-      [email, contrasena, rol, activo]  
+      `INSERT INTO Usuario (id_usuario, email, contrasena, rol, activo) 
+       VALUES ($1, $2, $3, $4, $5) RETURNING *`,
+      [id_usuario, email, contrasena, rol, activo]  
     );
     res.status(201).json(result.rows[0]);
   } catch (error) {

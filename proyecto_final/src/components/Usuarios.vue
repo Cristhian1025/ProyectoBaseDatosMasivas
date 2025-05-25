@@ -14,6 +14,12 @@
         <h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Agregar Nuevo Usuario</h3>
         <form @submit.prevent="agregarUsuario">
           <div class="mb-4">
+            <label for="id_usuario" class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">ID Usuario:</label>
+            <input v-model="nuevoUsuario.id_usuario" type="number" id="id_usuario" required
+                   class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                   placeholder="Ingrese el ID del usuario">
+          </div>
+          <div class="mb-4">
             <label for="email" class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">Email:</label>
             <input v-model="nuevoUsuario.email" type="email" id="email" required
                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
@@ -51,6 +57,12 @@
       <div v-if="mostrarFormularioEditar" class="bg-white dark:bg-gray-800 shadow-md rounded-md p-6 mb-4">
         <h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Editar Usuario</h3>
         <form @submit.prevent="actualizarUsuario">
+          <div class="mb-4">
+            <label for="edit_id_usuario" class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">ID Usuario:</label>
+            <input v-model="usuarioEditado.id_usuario" type="number" id="edit_id_usuario" required
+                   class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                   placeholder="ID del usuario">
+          </div>
           <div class="mb-4">
             <label for="edit_email" class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">Email:</label>
             <input v-model="usuarioEditado.email" type="email" id="edit_email" required
@@ -151,6 +163,7 @@ export default {
     const loading = ref(true);
     const error = ref(null);
     const nuevoUsuario = ref({ // Para el formulario de agregar
+      id_usuario: '',
       email: '',
       contrasena: '',
       rol: '',
@@ -168,6 +181,7 @@ export default {
 
     const agregarUsuario = () => {
       const payload = {
+        id_usuario: nuevoUsuario.value.id_usuario,
         email: nuevoUsuario.value.email,
         contrasena: nuevoUsuario.value.contrasena,
         rol: nuevoUsuario.value.rol,
@@ -178,6 +192,7 @@ export default {
         .then(response => {
           usuarios.value = [...usuarios.value, response.data];
           nuevoUsuario.value = {
+            id_usuario: '',
             email: '',
             contrasena: '',
             rol: '',
@@ -200,6 +215,7 @@ export default {
 
     const actualizarUsuario = () => {
       const payload = {
+        id_usuario: usuarioEditado.value.id_usuario,
         email: usuarioEditado.value.email,
         contrasena: usuarioEditado.value.contrasena,
         rol: usuarioEditado.value.rol,
@@ -409,6 +425,7 @@ tbody tr:last-child{
 input[type="email"],
 input[type="password"],
 input[type="text"],
+input[type="number"],
 select {
   width: 100%;
   padding: 0.75rem;
@@ -427,6 +444,7 @@ select {
 input[type="email"]:focus,
 input[type="password"]:focus,
 input[type="text"]:focus,
+input[type="number"]:focus,
 select:focus {
   border-color: #3b82f6;
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
