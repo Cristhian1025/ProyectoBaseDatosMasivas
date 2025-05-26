@@ -259,25 +259,19 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "nombre": {
-                    "example": "any"
-                  },
-                  "apellido": {
+                  "id_usuario": {
                     "example": "any"
                   },
                   "email": {
                     "example": "any"
                   },
-                  "contraseña": {
+                  "contrasena": {
                     "example": "any"
                   },
-                  "fecha_nacimiento": {
+                  "rol": {
                     "example": "any"
                   },
-                  "telefono": {
-                    "example": "any"
-                  },
-                  "tipo_usuario": {
+                  "activo": {
                     "example": "any"
                   }
                 }
@@ -610,7 +604,7 @@
                   "precio": {
                     "example": "any"
                   },
-                  "duracion_semanas": {
+                  "duracion_meses": {
                     "example": "any"
                   }
                 }
@@ -686,7 +680,7 @@
                   "precio": {
                     "example": "any"
                   },
-                  "duracion_semanas": {
+                  "duracion_meses": {
                     "example": "any"
                   }
                 }
@@ -751,19 +745,22 @@
               "schema": {
                 "type": "object",
                 "properties": {
+                  "id_usuario": {
+                    "example": "any"
+                  },
                   "nombre": {
                     "example": "any"
                   },
                   "apellido": {
                     "example": "any"
                   },
-                  "cargo": {
-                    "example": "any"
-                  },
-                  "email": {
-                    "example": "any"
-                  },
                   "telefono": {
+                    "example": "any"
+                  },
+                  "fecha_contratacion": {
+                    "example": "any"
+                  },
+                  "puesto": {
                     "example": "any"
                   },
                   "id_gimnasio": {
@@ -833,19 +830,22 @@
               "schema": {
                 "type": "object",
                 "properties": {
+                  "id_usuario": {
+                    "example": "any"
+                  },
                   "nombre": {
                     "example": "any"
                   },
                   "apellido": {
                     "example": "any"
                   },
-                  "cargo": {
-                    "example": "any"
-                  },
-                  "email": {
-                    "example": "any"
-                  },
                   "telefono": {
+                    "example": "any"
+                  },
+                  "fecha_contratacion": {
+                    "example": "any"
+                  },
+                  "puesto": {
                     "example": "any"
                   },
                   "id_gimnasio": {
@@ -925,10 +925,19 @@
                   "altura": {
                     "example": "any"
                   },
-                  "grasa_corporal": {
+                  "porcentaje_grasa": {
                     "example": "any"
                   },
                   "masa_muscular": {
+                    "example": "any"
+                  },
+                  "cintura": {
+                    "example": "any"
+                  },
+                  "cadera": {
+                    "example": "any"
+                  },
+                  "brazo": {
                     "example": "any"
                   }
                 }
@@ -1007,10 +1016,19 @@
                   "altura": {
                     "example": "any"
                   },
-                  "grasa_corporal": {
+                  "porcentaje_grasa": {
                     "example": "any"
                   },
                   "masa_muscular": {
+                    "example": "any"
+                  },
+                  "cintura": {
+                    "example": "any"
+                  },
+                  "cadera": {
+                    "example": "any"
+                  },
+                  "brazo": {
                     "example": "any"
                   }
                 }
@@ -1394,12 +1412,20 @@
         }
       }
     },
-    "/api/promocionPlan/{id}": {
+    "/api/promocionPlan/{id_promocion}/{id_plan}": {
       "get": {
         "description": "",
         "parameters": [
           {
-            "name": "id",
+            "name": "id_promocion",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id_plan",
             "in": "path",
             "required": true,
             "schema": {
@@ -1410,6 +1436,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
           },
           "404": {
             "description": "Not Found"
@@ -1423,7 +1452,15 @@
         "description": "",
         "parameters": [
           {
-            "name": "id",
+            "name": "id_promocion",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id_plan",
             "in": "path",
             "required": true,
             "schema": {
@@ -1451,10 +1488,10 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "id_promocion": {
+                  "nueva_id_promocion": {
                     "example": "any"
                   },
-                  "id_plan": {
+                  "nueva_id_plan": {
                     "example": "any"
                   }
                 }
@@ -1467,7 +1504,15 @@
         "description": "",
         "parameters": [
           {
-            "name": "id",
+            "name": "id_promocion",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id_plan",
             "in": "path",
             "required": true,
             "schema": {
@@ -1478,6 +1523,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
           },
           "404": {
             "description": "Not Found"
@@ -1538,12 +1586,20 @@
         }
       }
     },
-    "/api/clientePlan/{id}": {
+    "/api/clientePlan/{id_cliente}/{id_plan}": {
       "get": {
         "description": "",
         "parameters": [
           {
-            "name": "id",
+            "name": "id_cliente",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id_plan",
             "in": "path",
             "required": true,
             "schema": {
@@ -1554,6 +1610,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
           },
           "404": {
             "description": "Not Found"
@@ -1567,7 +1626,15 @@
         "description": "",
         "parameters": [
           {
-            "name": "id",
+            "name": "id_cliente",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id_plan",
             "in": "path",
             "required": true,
             "schema": {
@@ -1595,10 +1662,10 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "id_cliente": {
+                  "nueva_id_cliente": {
                     "example": "any"
                   },
-                  "id_plan": {
+                  "nueva_id_plan": {
                     "example": "any"
                   },
                   "fecha_inicio": {
@@ -1617,7 +1684,15 @@
         "description": "",
         "parameters": [
           {
-            "name": "id",
+            "name": "id_cliente",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id_plan",
             "in": "path",
             "required": true,
             "schema": {
@@ -1628,6 +1703,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
           },
           "404": {
             "description": "Not Found"
@@ -1998,25 +2076,19 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "nombre": {
-                    "example": "any"
-                  },
-                  "apellido": {
+                  "id_usuario": {
                     "example": "any"
                   },
                   "email": {
                     "example": "any"
                   },
-                  "contraseña": {
+                  "contrasena": {
                     "example": "any"
                   },
-                  "fecha_nacimiento": {
+                  "rol": {
                     "example": "any"
                   },
-                  "telefono": {
-                    "example": "any"
-                  },
-                  "tipo_usuario": {
+                  "activo": {
                     "example": "any"
                   }
                 }
@@ -2349,7 +2421,7 @@
                   "precio": {
                     "example": "any"
                   },
-                  "duracion_semanas": {
+                  "duracion_meses": {
                     "example": "any"
                   }
                 }
@@ -2425,7 +2497,7 @@
                   "precio": {
                     "example": "any"
                   },
-                  "duracion_semanas": {
+                  "duracion_meses": {
                     "example": "any"
                   }
                 }
@@ -2490,19 +2562,22 @@
               "schema": {
                 "type": "object",
                 "properties": {
+                  "id_usuario": {
+                    "example": "any"
+                  },
                   "nombre": {
                     "example": "any"
                   },
                   "apellido": {
                     "example": "any"
                   },
-                  "cargo": {
-                    "example": "any"
-                  },
-                  "email": {
-                    "example": "any"
-                  },
                   "telefono": {
+                    "example": "any"
+                  },
+                  "fecha_contratacion": {
+                    "example": "any"
+                  },
+                  "puesto": {
                     "example": "any"
                   },
                   "id_gimnasio": {
@@ -2572,19 +2647,22 @@
               "schema": {
                 "type": "object",
                 "properties": {
+                  "id_usuario": {
+                    "example": "any"
+                  },
                   "nombre": {
                     "example": "any"
                   },
                   "apellido": {
                     "example": "any"
                   },
-                  "cargo": {
-                    "example": "any"
-                  },
-                  "email": {
-                    "example": "any"
-                  },
                   "telefono": {
+                    "example": "any"
+                  },
+                  "fecha_contratacion": {
+                    "example": "any"
+                  },
+                  "puesto": {
                     "example": "any"
                   },
                   "id_gimnasio": {
@@ -2664,10 +2742,19 @@
                   "altura": {
                     "example": "any"
                   },
-                  "grasa_corporal": {
+                  "porcentaje_grasa": {
                     "example": "any"
                   },
                   "masa_muscular": {
+                    "example": "any"
+                  },
+                  "cintura": {
+                    "example": "any"
+                  },
+                  "cadera": {
+                    "example": "any"
+                  },
+                  "brazo": {
                     "example": "any"
                   }
                 }
@@ -2746,10 +2833,19 @@
                   "altura": {
                     "example": "any"
                   },
-                  "grasa_corporal": {
+                  "porcentaje_grasa": {
                     "example": "any"
                   },
                   "masa_muscular": {
+                    "example": "any"
+                  },
+                  "cintura": {
+                    "example": "any"
+                  },
+                  "cadera": {
+                    "example": "any"
+                  },
+                  "brazo": {
                     "example": "any"
                   }
                 }
@@ -3133,12 +3229,20 @@
         }
       }
     },
-    "/promocionPlan/{id}": {
+    "/promocionPlan/{id_promocion}/{id_plan}": {
       "get": {
         "description": "",
         "parameters": [
           {
-            "name": "id",
+            "name": "id_promocion",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id_plan",
             "in": "path",
             "required": true,
             "schema": {
@@ -3149,6 +3253,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
           },
           "404": {
             "description": "Not Found"
@@ -3162,7 +3269,15 @@
         "description": "",
         "parameters": [
           {
-            "name": "id",
+            "name": "id_promocion",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id_plan",
             "in": "path",
             "required": true,
             "schema": {
@@ -3190,10 +3305,10 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "id_promocion": {
+                  "nueva_id_promocion": {
                     "example": "any"
                   },
-                  "id_plan": {
+                  "nueva_id_plan": {
                     "example": "any"
                   }
                 }
@@ -3206,7 +3321,15 @@
         "description": "",
         "parameters": [
           {
-            "name": "id",
+            "name": "id_promocion",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id_plan",
             "in": "path",
             "required": true,
             "schema": {
@@ -3217,6 +3340,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
           },
           "404": {
             "description": "Not Found"
@@ -3277,12 +3403,20 @@
         }
       }
     },
-    "/clientePlan/{id}": {
+    "/clientePlan/{id_cliente}/{id_plan}": {
       "get": {
         "description": "",
         "parameters": [
           {
-            "name": "id",
+            "name": "id_cliente",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id_plan",
             "in": "path",
             "required": true,
             "schema": {
@@ -3293,6 +3427,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
           },
           "404": {
             "description": "Not Found"
@@ -3306,7 +3443,15 @@
         "description": "",
         "parameters": [
           {
-            "name": "id",
+            "name": "id_cliente",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id_plan",
             "in": "path",
             "required": true,
             "schema": {
@@ -3334,10 +3479,10 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "id_cliente": {
+                  "nueva_id_cliente": {
                     "example": "any"
                   },
-                  "id_plan": {
+                  "nueva_id_plan": {
                     "example": "any"
                   },
                   "fecha_inicio": {
@@ -3356,7 +3501,15 @@
         "description": "",
         "parameters": [
           {
-            "name": "id",
+            "name": "id_cliente",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id_plan",
             "in": "path",
             "required": true,
             "schema": {
@@ -3367,6 +3520,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
           },
           "404": {
             "description": "Not Found"
@@ -3599,10 +3755,10 @@
                   "id_gimnasio": {
                     "example": "any"
                   },
-                  "cargo": {
+                  "fecha_contratacion": {
                     "example": "any"
                   },
-                  "email": {
+                  "puesto": {
                     "example": "any"
                   },
                   "ubicacion": {
@@ -3629,10 +3785,19 @@
                   "altura": {
                     "example": "any"
                   },
-                  "grasa_corporal": {
+                  "porcentaje_grasa": {
                     "example": "any"
                   },
                   "masa_muscular": {
+                    "example": "any"
+                  },
+                  "cintura": {
+                    "example": "any"
+                  },
+                  "cadera": {
+                    "example": "any"
+                  },
+                  "brazo": {
                     "example": "any"
                   },
                   "objetivo": {
@@ -3650,16 +3815,22 @@
                   "precio": {
                     "example": "any"
                   },
-                  "duracion_semanas": {
+                  "duracion_meses": {
                     "example": "any"
                   },
                   "descuento": {
                     "example": "any"
                   },
-                  "contraseña": {
+                  "email": {
                     "example": "any"
                   },
-                  "tipo_usuario": {
+                  "contrasena": {
+                    "example": "any"
+                  },
+                  "rol": {
+                    "example": "any"
+                  },
+                  "activo": {
                     "example": "any"
                   },
                   "id_empleado": {
@@ -3765,10 +3936,10 @@
                   "id_gimnasio": {
                     "example": "any"
                   },
-                  "cargo": {
+                  "fecha_contratacion": {
                     "example": "any"
                   },
-                  "email": {
+                  "puesto": {
                     "example": "any"
                   },
                   "ubicacion": {
@@ -3795,10 +3966,19 @@
                   "altura": {
                     "example": "any"
                   },
-                  "grasa_corporal": {
+                  "porcentaje_grasa": {
                     "example": "any"
                   },
                   "masa_muscular": {
+                    "example": "any"
+                  },
+                  "cintura": {
+                    "example": "any"
+                  },
+                  "cadera": {
+                    "example": "any"
+                  },
+                  "brazo": {
                     "example": "any"
                   },
                   "objetivo": {
@@ -3816,10 +3996,13 @@
                   "precio": {
                     "example": "any"
                   },
-                  "duracion_semanas": {
+                  "duracion_meses": {
                     "example": "any"
                   },
                   "descuento": {
+                    "example": "any"
+                  },
+                  "email": {
                     "example": "any"
                   },
                   "contraseña": {
@@ -3835,12 +4018,6 @@
                     "example": "any"
                   },
                   "coach": {
-                    "example": "any"
-                  },
-                  "id_promocion": {
-                    "example": "any"
-                  },
-                  "id_plan": {
                     "example": "any"
                   }
                 }
@@ -3893,6 +4070,260 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/{id_promocion}/{id_plan}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id_promocion",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id_plan",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id_promocion",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id_plan",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nueva_id_promocion": {
+                    "example": "any"
+                  },
+                  "nueva_id_plan": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id_promocion",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id_plan",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/{id_cliente}/{id_plan}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id_cliente",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id_plan",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id_cliente",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id_plan",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nueva_id_cliente": {
+                    "example": "any"
+                  },
+                  "nueva_id_plan": {
+                    "example": "any"
+                  },
+                  "fecha_inicio": {
+                    "example": "any"
+                  },
+                  "fecha_fin": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id_cliente",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id_plan",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }

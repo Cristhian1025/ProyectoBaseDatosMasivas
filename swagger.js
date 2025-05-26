@@ -3,18 +3,7 @@ const swaggerAutogen = require('swagger-autogen')({ openapi: '3.0.0' });
 const outputFile = './swagger-output.json';
 const endpointsFiles = [
     './index.js',  // Incluir el archivo principal
-    './routes/index.js',  // Si existe un archivo de rutas principal
-    './routes/clienteRoutes.js',
-    './routes/empleadoRoutes.js',
-    './routes/gimnasioRoutes.js',
-    './routes/medidasClienteRoutes.js',
-    './routes/objetivoClienteRoutes.js',
-    './routes/planRoutes.js',
-    './routes/promocionRoutes.js',
-    './routes/usuarioRoutes.js',
-    './routes/instructorRoutes.js',
-    './routes/promocionPlanRoutes.js',
-    './routes/clientePlanRoutes.js'
+    
 ];
 
 const doc = {

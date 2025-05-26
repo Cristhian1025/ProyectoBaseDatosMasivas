@@ -44,6 +44,14 @@
                 Usuarios
               </button>
             </li>
+            <li>
+              <button
+                class="text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 px-3 py-1 rounded-md"
+                @click="navigateTo('/medidas')"
+              >
+                Medidas
+              </button>
+            </li>
           </ul>
         </nav>
       </div>
