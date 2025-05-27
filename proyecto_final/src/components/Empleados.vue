@@ -2,7 +2,6 @@
   <div class="flex flex-col min-h-screen bg-gray-100 dark:bg-gray-900">
     <Header />
     <div class="employees-container p-6 flex-1 py-10 w-full">
-      
       <h2 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Gestión de Empleados</h2>
   
       <div class="mb-4">

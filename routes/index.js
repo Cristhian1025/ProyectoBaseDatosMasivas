@@ -29,7 +29,7 @@ router.use('/medidas-clientes', medidasClienteRoutes);
 router.use('/objetivos-clientes', objetivoClienteRoutes);
 router.use('/promociones', promocionRoutes);
 router.use('/promocionPlan', promocionPlanRoutes);
-router.use('/clientePlan', clientePlanRoutes);
+router.use('/cliente-plan', clientePlanRoutes);
 router.use('/instructores', instructorRoutes);
 
 module.exports = router;
