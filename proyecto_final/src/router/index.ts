@@ -6,7 +6,8 @@ import Empleados from '../components/Empleados.vue';
 import Planes from '../components/Planes.vue';
 import Usuarios from '../components/Usuarios.vue';
 import Medidas from '../components/medidas.vue';
-import Subs from '../components/subs.vue'; // Asegúrate que el nombre y path coincidan
+import Subs from '../components/subs.vue'; 
+import Gimnasios from '../components/gimnasios.vue'; // Asegúrate que el nombre y path coincidan
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -24,6 +25,11 @@ const router = createRouter({
       path: '/usuarios',
       name: 'usuarios',
       component: Usuarios,
+    },
+    {
+      path: '/gimnasios',
+      name: 'gimnasios',
+      component: Gimnasios,
     },
     {
       path: '/clientes',

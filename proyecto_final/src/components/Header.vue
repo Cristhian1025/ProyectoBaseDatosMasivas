@@ -6,7 +6,7 @@
           <ul class="flex space-x-4">
             <li>
               <button
-                class="text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 px-3 py-1 rounded-md"
+                class="hover:bg-gray-100 dark:hover:bg-gray-700 px-3 py-1 rounded-md"
                 @click="navigateTo('/inicio')"
               >
                 Inicio
@@ -14,7 +14,9 @@
             </li>
             <li>
               <button
-                class="text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 px-3 py-1 rounded-md"
+              class="hover:bg-gray-100 dark:hover:bg-gray-700 px-3 py-1 rounded-md"
+
+
                 @click="navigateTo('/clientes')"
               >
                 Clientes
@@ -22,7 +24,7 @@
             </li>
             <li>
               <button
-                class="text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 px-3 py-1 rounded-md"
+              class="hover:bg-gray-100 dark:hover:bg-gray-700 px-3 py-1 rounded-md"
                 @click="navigateTo('/empleados')"
               >
                 Empleados
@@ -30,7 +32,7 @@
             </li>
             <li>
               <button
-                class="text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 px-3 py-1 rounded-md"
+              class="hover:bg-gray-100 dark:hover:bg-gray-700 px-3 py-1 rounded-md"
                 @click="navigateTo('/planes')"
               >
                 Planes
@@ -38,15 +40,25 @@
             </li>
             <li>
               <button
-                class="text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 px-3 py-1 rounded-md"
+              class="hover:bg-gray-100 dark:hover:bg-gray-700 px-3 py-1 rounded-md"
                 @click="navigateTo('/Usuarios')"
               >
                 Usuarios
               </button>
             </li>
+
             <li>
               <button
-                class="text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 px-3 py-1 rounded-md"
+              class="hover:bg-gray-100 dark:hover:bg-gray-700 px-3 py-1 rounded-md"
+                @click="navigateTo('/gimnasios')"
+              >
+                Gimnasios
+              </button>
+            </li>
+
+            <li>
+              <button
+              class="hover:bg-gray-100 dark:hover:bg-gray-700 px-3 py-1 rounded-md"
                 @click="navigateTo('/medidas')"
               >
                 Medidas
@@ -54,7 +66,7 @@
             </li>
             <li>
               <button
-                class="text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 px-3 py-1 rounded-md"
+              class="hover:bg-gray-100 dark:hover:bg-gray-700 px-3 py-1 rounded-md"
                 @click="navigateTo('/subs')"
               >
                 Suscripciones

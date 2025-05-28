@@ -1,96 +1,128 @@
 <template>
-    <div class="flex flex-col min-h-screen bg-gray-100 dark:bg-gray-900">
-      <Header/>
-  
-      <main class="flex-1 py-10 w-full">
-        <div class="container mx-auto px-4">
-          <div class="home-container p-6">
-            <h2 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">
-              Bienvenido a Gim SAS
-            </h2>
-            <p class="mb-4 text-gray-700 dark:text-gray-300">
-              Este es el panel de inicio de tu aplicación de gestión de gimnasio.
-              Aquí encontrarás información importante y accesos rápidos a las
-              diferentes secciones.
-            </p>
-  
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              <div
-                class="card bg-white dark:bg-gray-800 shadow-md rounded-md p-6 flex flex-col justify-between"
-              >
-                <h3 class="text-lg font-semibold mb-2 text-gray-900 dark:text-white">
-                  Clientes Activos
-                </h3>
-                <p class="text-xl font-bold text-blue-500 dark:text-blue-400">
-                  150
-                </p>
-                <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">
-                  Total de clientes activos.
-                </p>
-              </div>
-  
-              <div
-                class="card bg-white dark:bg-gray-800 shadow-md rounded-md p-6 flex flex-col justify-between"
-              >
-                <h3 class="text-lg font-semibold mb-2 text-gray-900 dark:text-white">
-                  Planes Disponibles
-                </h3>
-                <p class="text-xl font-bold text-green-500 dark:text-green-400">
-                  10
-                </p>
-                <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">
-                  Número de planes de entrenamiento.
-                </p>
-              </div>
-  
-              <div
-                class="card bg-white dark:bg-gray-800 shadow-md rounded-md p-6 flex flex-col justify-between"
-              >
-                <h3 class="text-lg font-semibold mb-2 text-gray-900 dark:text-white">
-                  Instructores
-                </h3>
-                <p class="text-xl font-bold text-purple-500 dark:text-purple-400">
-                  5
-                </p>
-                <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">
-                  Número de instructores activos.
-                </p>
-              </div>
+  <div class="flex flex-col min-h-screen bg-gray-100 dark:bg-gray-900">
+    <Header />
+
+    <main class="flex-1 py-10 w-full">
+      <div class="container mx-auto px-4">
+        <div class="home-container p-6">
+          <h1 class="text-3xl font-bold mb-6 text-center text-gray-800 dark:text-white">
+            Bienvenido a Gim SAS
+          </h1>
+          <p class="mb-6 text-gray-700 dark:text-gray-300 text-center max-w-2xl mx-auto">
+            Este es el panel de inicio de tu aplicación de gestión de gimnasio.
+            Aquí encontrarás información importante y accesos rápidos a las
+            diferentes secciones.
+          </p>
+
+          <div v-if="loading" class="text-center text-gray-600 dark:text-gray-400 py-8">
+            Cargando datos del dashboard...
+          </div>
+          <div v-else-if="error" class="text-center text-red-500 py-8">
+            Error al cargar los datos: {{ error }}
+          </div>
+          <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div
+              class="card bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 flex flex-col justify-between transform transition-transform hover:scale-105"
+            >
+              <h3 class="text-lg font-semibold mb-2 text-gray-900 dark:text-white">
+                Clientes Activos
+              </h3>
+              <p class="text-4xl font-extrabold text-blue-600 dark:text-blue-400">
+                {{ totalClients }}
+              </p>
+              <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">
+                Total de clientes con suscripciones activas.
+              </p>
+            </div>
+
+            <div
+              class="card bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 flex flex-col justify-between transform transition-transform hover:scale-105"
+            >
+              <h3 class="text-lg font-semibold mb-2 text-gray-900 dark:text-white">
+                Planes Disponibles
+              </h3>
+              <p class="text-4xl font-extrabold text-green-600 dark:text-green-400">
+                {{ totalPlans }}
+              </p>
+              <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">
+                Número de planes de entrenamiento ofrecidos.
+              </p>
+            </div>
+
+            <div
+              class="card bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 flex flex-col justify-between transform transition-transform hover:scale-105"
+            >
+              <h3 class="text-lg font-semibold mb-2 text-gray-900 dark:text-white">
+                Empleados Registrados
+              </h3>
+              <p class="text-4xl font-extrabold text-purple-600 dark:text-purple-400">
+                {{ totalInstructors }}
+              </p>
+              <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">
+                Número total de empleados en el sistema.
+              </p>
             </div>
           </div>
         </div>
-      </main>
-  
-      <Footer/>
-    </div>
-  </template>
-  
-  <script setup>
-  import Header from '../components/Header.vue'
-  import Footer from '../components/Footer.vue'
-  </script>
-  
+      </div>
+    </main>
 
+    <Footer />
+  </div>
+</template>
 
-  <script>
-import { defineComponent } from 'vue';
-import { useRouter } from 'vue-router';
+<script setup>
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
+import Header from '../components/Header.vue';
+import Footer from '../components/Footer.vue';
 
-export default defineComponent({
-  name: 'Inicio',
-  setup() {
-    const router = useRouter();
+// Reactive states for dashboard data
+const totalClients = ref(0);
+const totalPlans = ref(0);
+const totalInstructors = ref(0); // Renamed from instructors to be more general for employees
+const loading = ref(true);
+const error = ref(null);
 
-    const navigateTo = (path) => {
-      router.push(path);
-    };
+// Function to fetch all dashboard data
+const fetchDashboardData = async () => {
+  loading.value = true;
+  error.value = null;
+  try {
+    const [clientsRes, plansRes, employeesRes] = await Promise.all([
+      axios.get('http://localhost:3000/api/cliente-plan'), // Get all client-plans to count unique active clients
+      axios.get('http://localhost:3000/api/planes'),
+      axios.get('http://localhost:3000/api/empleados')
+    ]);
 
-    return {
-      navigateTo,
-    };
-  },
+    // Calculate total active clients
+    // Assuming 'estado_suscripcion' is 'Activa' for active subscriptions
+    const activeSubscriptions = clientsRes.data.filter(sub => sub.estado_suscripcion === 'Activa');
+    const uniqueClientIds = new Set(activeSubscriptions.map(sub => sub.id_cliente));
+    totalClients.value = uniqueClientIds.size;
+
+    // Get total number of plans
+    totalPlans.value = plansRes.data.length;
+
+    // Get total number of employees (assuming all are instructors for now, or could filter by 'puesto')
+    totalInstructors.value = employeesRes.data.length;
+    // If you need to filter by a specific 'puesto' (e.g., 'Instructor'), you would do:
+    // totalInstructors.value = employeesRes.data.filter(emp => emp.puesto === 'Instructor').length;
+
+  } catch (err) {
+    error.value = err.response?.data?.error || err.message;
+    console.error('Error al cargar datos del dashboard:', err);
+  } finally {
+    loading.value = false;
+  }
+};
+
+// Fetch data when the component is mounted
+onMounted(() => {
+  fetchDashboardData();
 });
 </script>
+
 
   
   <style scoped>
